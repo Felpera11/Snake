@@ -1,11 +1,10 @@
 class Controller{
-constructor(up, right, down, left, btn)
+constructor(up, right, down, left)
     {
         this.up = up;
         this.right = right;
         this.down = down;
         this.left = left;
-        this.btn = btn;
 
         this.register();
     }

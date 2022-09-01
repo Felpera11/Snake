@@ -6,11 +6,10 @@ class Player {
         this.color = color;
         this.controller = controller;
 
-        this.originalSize = size;
-        this.originalSpeed = speed;
         this.col = new collider(new vector2(), 0);
         this.counter = 0;
-        this.collided;
+        this.segments = [];
+        this.positions = [];
     }
 
     setCollider(col = new collider(new vector2(this.position.x, this.position.y), this.size)){
@@ -35,7 +34,7 @@ class Player {
         this.position = this.position.add(move);
         this.col.position = this.position;
 
-        positions.push(this.position);
+        this.positions.push(this.position);
 
         if(hitWall(this.position, this.size, WIDTH, HEIGHT))
         {
@@ -44,17 +43,9 @@ class Player {
         
         
         
-        for (let i = 0; i < entities.length; i++) {
-            if(entities[i] == this)
-            {
-                continue;
-            }
-            if(entities[i] == apple)
-            {
-                continue;
-            }
-            
-            entities[i].position = positions[positions.length - (i + 1)];
+        for (let i = 0; i < this.segments.length; i++) {
+            debugger;
+            this.segments[i].position = this.positions[(this.positions.length - 3) - i];
         }
 
 
@@ -65,13 +56,14 @@ class Player {
             }
             else if(this.col.checkCollision(entities[i].col))
             {
-                if(entities[i] == apple)
+                if(entities[i] instanceof Apple)
                 {
-                    let node = new Segment(positions[positions.length - 1], this.size, this.size, "black", controller, entities.length - 1);
+                    let node = new Segment(this.positions[this.positions.length - 1], this.size, "black", this.segments.length + 1);
                     entities.push(node);
+                    this.segments.push(node);
 
-                    apple.position = apple.getNewPosition();
-                    apple.col.position = apple.position;
+                    entities[i].position = entities[i].getNewPosition();
+                    entities[i].col.position = entities[i].position;
                 }
                 else
                 {
@@ -89,7 +81,7 @@ class collider
     {
         this.position = position;
 
-        if(typeof(size) == vector2)
+        if(size instanceof vector2)
         {
             this.size = size;
         }
@@ -113,15 +105,11 @@ class collider
 
 
 class Segment {
-    constructor(position = new vector2(0, 0), size = 10, speed = 1, color = "black", controller, id) {
+    constructor(position = new vector2(0, 0), size = 10, color = "black", id) {
         this.position = position;
         this.size = size;
-        this.speed = speed;
         this.color = color;
-        this.controller = controller;
 
-        this.originalSize = size;
-        this.originalSpeed = speed;
         this.col = new collider(new vector2(), 0);
         this.counter = id;
     }
@@ -157,7 +145,7 @@ class Segment {
 }
 
 class Apple {
-    constructor(position = new vector2(0, 0), size = 10, speed = 1, color = "black") {
+    constructor(position = new vector2(0, 0), size = 10, color = "black") {
         this.position = position;
         this.size = size;
         this.color = color;

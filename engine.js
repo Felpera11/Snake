@@ -4,7 +4,8 @@ const frameRate = 1000 / 60;
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
-const controller = new Controller("KeyW", "KeyD", "KeyS", "KeyA", "Space");
+const controller = new Controller("KeyW", "KeyD", "KeyS", "KeyA");
+const controller2 = new Controller("ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft");
 
 ctx.fillStyle = "black";
 
@@ -16,11 +17,11 @@ player1 = new Player(new vector2(), 30, 30, "black", controller);
 player1.setCollider();
 entities.push(player1);
 
-apple = new Apple(new vector2(150, 150), 30, 0, "red");
+
+apple = new Apple(new vector2(150, 150), 30, "red");
 apple.setCollider();
 entities.push(apple);
 
-positions = [];
 
 
 function renderLoop()
@@ -51,8 +52,8 @@ function tickLoop()
 
 
 
-setInterval(renderLoop, frameRate);
 setInterval(tickLoop, frameRate * 6);
+setInterval(renderLoop, frameRate);
 
 
   
